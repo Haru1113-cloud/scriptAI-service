@@ -92,13 +92,13 @@ export default function CancelPage() {
             </div>
 
             <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 24 }}>
-              解約すると、<strong>当月末まで</strong>は無制限生成を引き続きご利用いただけます。翌月からは自動更新が停止されます。
+              解約すると、<strong>当月末まで</strong>は残りのクレジットを引き続きご利用いただけます。翌月からは自動更新が停止されます。
             </p>
 
             <div style={{ background: "var(--bg-subtle)", borderRadius: 14, padding: "16px 20px", marginBottom: 32 }}>
               <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 10 }}>
                 {[
-                  "当月末まで無制限生成が継続",
+                  "当月末まで残りクレジットが利用可能",
                   "翌月からクレジット制に戻る",
                   "購入済みクレジットはそのまま残る",
                   "再度いつでも登録できる",
@@ -153,7 +153,7 @@ export default function CancelPage() {
             <div style={{ width: 56, height: 56, borderRadius: "50%", background: "var(--bg-subtle)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, margin: "0 auto 20px" }}>✓</div>
             <h1 style={{ fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: 20, color: "var(--text-primary)", letterSpacing: "-0.03em", marginBottom: 12 }}>解約が完了しました</h1>
             <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.8, marginBottom: 32 }}>
-              当月末まで無制限生成をご利用いただけます。またご利用をご検討の際はいつでもお申し込みください。
+              当月末まで残りのクレジットをご利用いただけます。またご利用をご検討の際はいつでもお申し込みください。
             </p>
             <button
               onClick={() => router.push("/")}

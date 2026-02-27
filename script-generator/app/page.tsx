@@ -40,12 +40,12 @@ const STEPS = [
 const PRICING_PLANS = [
   { name: "Free", price: "¥0", unit: "", badge: null, badgeColor: "", desc: "まず試してみたい方へ", credits: "10クレジット（初回）", features: ["YouTube・Podcast両対応", "全トーン・尺が選択可能", "コピー機能付き"], cta: "無料で始める", ctaBg: "var(--bg-subtle)", ctaColor: "var(--text-secondary)", highlight: false },
   { name: "Pro", price: "¥400", unit: "買い切り", badge: "人気", badgeColor: "#ff6b2b", desc: "もっと使いたい方へ", credits: "50クレジット追加", features: ["Freeの全機能", "50台本分のクレジット", "有効期限なし", "即時チャージ"], cta: "購入する", ctaBg: "var(--accent)", ctaColor: "#fff", highlight: true },
-  { name: "Max", price: "¥2,980", unit: "/ 月", badge: "月額", badgeColor: "#1a1a1a", desc: "ヘビーユーザーへ", credits: "無制限生成", features: ["Proの全機能", "生成回数無制限", "クレジット消費なし", "いつでも解約可"], cta: "登録する", ctaBg: "var(--accent-dark)", ctaColor: "#fff", highlight: false },
+  { name: "Max", price: "¥2,980", unit: "/ 月", badge: "月額", badgeColor: "#1a1a1a", desc: "ヘビーユーザーへ", credits: "300クレジット/月", features: ["Proの全機能", "毎月300クレジット付与", "有効期限は月末まで", "いつでも解約可"], cta: "登録する", ctaBg: "var(--accent-dark)", ctaColor: "#fff", highlight: false },
 ];
 
 const FAQS = [
   { q: "クレジットに有効期限はありますか？", a: "Proプランで購入したクレジットに有効期限はありません。使いたいときに使えます。" },
-  { q: "Maxプランはいつでも解約できますか？", a: "はい、いつでも解約できます。解約後は当月末まで無制限機能を引き続きご利用いただけます。" },
+  { q: "Maxプランはいつでも解約できますか？", a: "はい、いつでも解約できます。解約後は当月末まで残りのクレジットをご利用いただけます。" },
   { q: "生成された台本は商用利用できますか？", a: "はい、商用利用可能です。YouTubeやPodcastへの投稿、クライアント向け制作にもお使いいただけます。" },
   { q: "どのAIモデルを使っていますか？", a: "Anthropic社のClaude Opus 4.6を使用しています。高品質な日本語生成に優れたモデルです。" },
   { q: "スマートフォンからも使えますか？", a: "はい、スマートフォン・タブレットのブラウザからそのままご利用いただけます。アプリのインストールは不要です。" },
@@ -222,7 +222,7 @@ export default function Home() {
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             {subscribed ? (
               <div style={{ display: "flex", alignItems: "center", gap: 6, background: "var(--accent-lime)", color: "#1a1a1a", padding: "6px 14px", borderRadius: 999, fontSize: 12, fontFamily: "var(--font-heading)", fontWeight: 700 }}>
-                ♾ MAX · 無制限
+                ♾ MAX · 300クレジット/月
               </div>
             ) : credits !== null ? (
               <button
@@ -717,9 +717,9 @@ export default function Home() {
                     <p style={{ fontFamily: "var(--font-heading)", fontWeight: 900, fontSize: 15, color: "var(--text-primary)" }}>MAX</p>
                     <span style={{ background: "var(--accent-lime)", color: "#1a1a1a", fontFamily: "var(--font-heading)", fontWeight: 700, fontSize: 10, padding: "2px 8px", borderRadius: 999 }}>月額</span>
                   </div>
-                  <p style={{ fontSize: 12, color: "var(--text-secondary)", marginBottom: 8 }}>無制限生成 · サブスクリプション</p>
+                  <p style={{ fontSize: 12, color: "var(--text-secondary)", marginBottom: 8 }}>300クレジット/月 · サブスクリプション</p>
                   <div style={{ display: "flex", gap: 12 }}>
-                    {["無制限", "いつでも解約"].map((f) => (
+                    {["300クレジット/月", "いつでも解約"].map((f) => (
                       <span key={f} style={{ fontSize: 11, color: "var(--text-primary)", fontFamily: "var(--font-heading)", fontWeight: 700 }}>✓ {f}</span>
                     ))}
                   </div>
