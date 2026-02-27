@@ -652,6 +652,18 @@ export default function Home() {
             <div style={{ width: 28, height: 28, borderRadius: 8, background: "var(--accent-dark)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13 }}>✦</div>
             <span style={{ fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: 16, color: "var(--text-primary)", letterSpacing: "-0.03em" }}>Script<span style={{ color: "var(--accent)" }}>AI</span></span>
           </div>
+          <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
+            {[
+              { label: "利用規約", href: "/legal/terms" },
+              { label: "プライバシーポリシー", href: "/legal/privacy" },
+              { label: "特定商取引法に基づく表記", href: "/legal/tokusho" },
+            ].map((link) => (
+              <a key={link.href} href={link.href} style={{ fontSize: 12, color: "var(--text-muted)", textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 500, transition: "color 0.2s" }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
+              >{link.label}</a>
+            ))}
+          </div>
           <p style={{ fontSize: 11, color: "var(--text-muted)", fontFamily: "var(--font-heading)" }}>© 2026 ScriptAI. All rights reserved.</p>
         </div>
       </footer>
