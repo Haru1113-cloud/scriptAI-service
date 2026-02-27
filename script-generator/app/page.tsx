@@ -240,6 +240,19 @@ export default function Home() {
                 ⚡ {credits} クレジット
               </button>
             ) : null}
+            <a
+              href="/cancel"
+              style={{
+                fontSize: 12, fontFamily: "var(--font-heading)", fontWeight: 600,
+                color: "var(--text-muted)", textDecoration: "none",
+                padding: "6px 12px", borderRadius: 999, border: "1px solid var(--border)",
+                background: "#fff", transition: "all 0.2s",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = "var(--text-primary)"; e.currentTarget.style.borderColor = "var(--border-hover)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = "var(--text-muted)"; e.currentTarget.style.borderColor = "var(--border)"; }}
+            >
+              解約する
+            </a>
             <button
               onClick={() => setShowUpgradeModal(true)}
               style={{
@@ -638,14 +651,6 @@ export default function Home() {
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <div style={{ width: 28, height: 28, borderRadius: 8, background: "var(--accent-dark)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13 }}>✦</div>
             <span style={{ fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: 16, color: "var(--text-primary)", letterSpacing: "-0.03em" }}>Script<span style={{ color: "var(--accent)" }}>AI</span></span>
-          </div>
-          <div style={{ display: "flex", gap: 28, flexWrap: "wrap" }}>
-            {["利用規約", "プライバシーポリシー", "特定商取引法に基づく表記", "お問い合わせ"].map((link) => (
-              <a key={link} href="#" style={{ fontSize: 12, color: "var(--text-muted)", textDecoration: "none", fontFamily: "var(--font-heading)", fontWeight: 500, transition: "color 0.2s" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text-primary)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
-              >{link}</a>
-            ))}
           </div>
           <p style={{ fontSize: 11, color: "var(--text-muted)", fontFamily: "var(--font-heading)" }}>© 2026 ScriptAI. All rights reserved.</p>
         </div>
