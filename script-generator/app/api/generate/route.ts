@@ -1,14 +1,82 @@
 import { NextRequest } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
 import {
   initDevice,
   getCredits,
   hasActiveSubscription,
   deductCredit,
-  addCredits,
 } from "@/lib/credits";
 
-const client = new Anthropic();
+const MOCK_MENU = `# 今週の献立プラン 🍽️
+
+## 月曜日
+**朝食：** トースト・目玉焼き・ヨーグルト
+**昼食：** 鶏むね肉のサラダチキン丼
+**夕食：** 豚の生姜焼き・味噌汁・ご飯
+
+---
+
+## 火曜日
+**朝食：** バナナスムージー・全粒粉パン
+**昼食：** 野菜たっぷりラーメン
+**夕食：** 鮭のムニエル・ほうれん草のおひたし・ご飯
+
+---
+
+## 水曜日
+**朝食：** 納豆ご飯・お味噌汁
+**昼食：** ツナとアボカドのサンドイッチ
+**夕食：** 鶏の照り焼き・ブロッコリー炒め・ご飯
+
+---
+
+## 木曜日
+**朝食：** オートミール・フルーツ
+**昼食：** 豚汁うどん
+**夕食：** 牛肉と野菜の炒め物・ご飯
+
+---
+
+## 金曜日
+**朝食：** フレンチトースト・サラダ
+**昼食：** 鶏そぼろ丼
+**夕食：** 刺身盛り合わせ・冷奴・ご飯
+
+---
+
+## 土曜日
+**朝食：** パンケーキ・ベーコンエッグ
+**昼食：** カレーライス（前夜の残り活用）
+**夕食：** 焼肉・キムチ・わかめスープ
+
+---
+
+## 日曜日
+**朝食：** 和定食（ご飯・焼き魚・お味噌汁・漬物）
+**昼食：** ざるそば・天ぷら
+**夕食：** すき焼き・ご飯
+
+---
+
+## 今週の買い物リスト
+- 鶏むね肉・豚バラ・牛肉・鮭・刺身盛り合わせ
+- 卵・納豆・豆腐・チーズ
+- ブロッコリー・ほうれん草・アボカド・キムチ
+- バナナ・フルーツ各種
+- 全粒粉パン・オートミール
+`;
+
+async function streamMockResponse(text: string): Promise<ReadableStream> {
+  const encoder = new TextEncoder();
+  return new ReadableStream({
+    async start(controller) {
+      for (const char of text) {
+        controller.enqueue(encoder.encode(char));
+        await new Promise((r) => setTimeout(r, 8));
+      }
+      controller.close();
+    },
+  });
+}
 
 export async function POST(request: NextRequest) {
   const { topic, contentType, duration, tone, targetAudience, deviceId } =
@@ -61,6 +129,19 @@ ${contentType === "youtube" ? youtubeFormat : podcastFormat}`;
     deductCredit(deviceId);
   }
 
+  // APIキー未設定またはプレースホルダーの場合はモック献立を返す
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const isMockMode = !apiKey || apiKey.startsWith("your_") || !apiKey.startsWith("sk-ant-");
+  if (isMockMode) {
+    const mockStream = await streamMockResponse(MOCK_MENU);
+    return new Response(mockStream, {
+      headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
+  }
+
+  const { default: Anthropic } = await import("@anthropic-ai/sdk");
+  const client = new Anthropic();
+
   const stream = client.messages.stream({
     model: "claude-opus-4-6",
     max_tokens: 4096,
@@ -84,10 +165,6 @@ ${contentType === "youtube" ? youtubeFormat : podcastFormat}`;
         }
         controller.close();
       } catch {
-        // Refund credit if generation failed
-        if (!subscribed) {
-          addCredits(deviceId, 1);
-        }
         controller.error(new Error("Generation failed"));
       }
     },
@@ -97,8 +174,6 @@ ${contentType === "youtube" ? youtubeFormat : podcastFormat}`;
   });
 
   return new Response(readableStream, {
-    headers: {
-      "Content-Type": "text/plain; charset=utf-8",
-    },
+    headers: { "Content-Type": "text/plain; charset=utf-8" },
   });
 }
